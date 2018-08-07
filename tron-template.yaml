@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tron
+  labels:
+    app: tron
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: tron
+  template:
+    metadata:
+      labels:
+        app: tron
+    spec:
+      hostname: tron1
+      subdomain: tron2
+      containers:
+      - name: tron
+        image: squid:5000/armagetron
+        tty: true
+        stdin: true
+        env:
+          - name: SERVER_NAME
+            value: Test Server -###-
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi 
+        volumeMounts:
+        - name: nfs
+          mountPath: "/games"
+      volumes:
+      - name: nfs
+        persistentVolumeClaim:
+          claimName: nfs
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tron1
+spec:
+  selector:
+    app: tron
+  clusterIP: None
+  ports:
+  - name: foo # Actually, no port is needed.
+    port: 1234
+    targetPort: 1234
+
