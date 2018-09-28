@@ -1,7 +1,9 @@
 # Kubernetes Deployment Ordinator
 
-Let's be clear from the start - this is a hack. Ideally this would be solved
-with StatefulSets or an Operator. But here we are.
+**Don't use this** - this was a quick and dirty hack to experiment with some
+things. You should use Helm instead. Or consider using a stateful set, with
+support inside your container images to dynamically update settings based
+on the hostname assigned by the stateful set.
 
 Given a deployment yaml file with _n_ `Replicas`, this tool generates _n_
 independent deployments with `Replicas=1`, and also updates EnvVars and adds
